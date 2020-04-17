@@ -1,26 +1,42 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import Card from './components/card/card.component'
+import './app.sass'
+import { connect } from 'react-redux'
 
-function App() {
+function App(props) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <div className="row">
+        {
+          props.products.map((item, k) =>
+            <div className="col" key={k}>
+              <Card
+                image={item.image}
+                title={item.title}
+                subTitle={item.subTitle}
+                price={item.price}
+                promo={item.promoText}
+                item={item}
+              />
+            </div>
+          )
+        }
+      </div>
     </div>
-  );
+  )
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    products: state.products.items
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+  }
+}
+
+const AppContainer = connect(mapStateToProps, mapDispatchToProps)(App)
+
+export default AppContainer
